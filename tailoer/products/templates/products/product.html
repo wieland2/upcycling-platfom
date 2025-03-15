@@ -3,7 +3,8 @@
 {% block content %}
 
 <div class="product__card">
-  <h1>{{product.owner.username}}</h1>
+  <a href="{% url 'profile' product.owner.username %}">
+    <h1>{{product.owner.username}}</h1>
   </a>
   <h2>{{product.title}}</h2>
   <h3>{{product.price}}</h3>
