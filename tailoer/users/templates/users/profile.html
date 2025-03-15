@@ -7,4 +7,25 @@
   <p>{{profile.bio}}</p>
 </div>
 
+{% if request.user.username == profile.username %}
+  <a href="{% url 'create-product' %}">List Item</a>
+{% endif %}
+
+
+
+<div class="user__products">
+  {% for product in products %}
+  <div class="product__card">
+    <h2>{{product.title}}</h2>
+    <h3>{{product.price}}</h3>
+    <p>{{product.description}}</p>
+    {% for tag in product.tags.all %}
+    <span>{{tag.name}}</span>
+    {% endfor %}
+  </div>
+
+  {% endfor %}
+</div>
+
+
 {% endblock content %}
