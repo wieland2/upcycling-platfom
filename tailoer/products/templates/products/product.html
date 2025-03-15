@@ -1,0 +1,16 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+<div class="product__card">
+  <h1>{{product.owner.username}}</h1>
+  </a>
+  <h2>{{product.title}}</h2>
+  <h3>{{product.price}}</h3>
+  <p>{{product.description}}</p>
+  {% for tag in product.tags.all %}
+  <span>{{tag.name}}</span>
+  {% endfor %}
+</div>
+
+{% endblock content%}
