@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
 
 
@@ -23,7 +24,7 @@ def loginUser(request):
 
         if user is not None:
             login(request, user)
-            return redirect('profile', user)
+            return redirect('profile', user.username)
         else:
             print("Username OR password is incorrect")
 
@@ -34,6 +35,23 @@ def logoutUser(request):
     logout(request)
     return redirect('login')
 
+def registerUser(request):
+    form = UserCreationForm()
+
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+
+            login(request, user)
+            return redirect('profile', user.username)
+
+
+    context = {'form': form}
+    return render(request, 'users/register.html', context)
 
 
 def profile(request, username):

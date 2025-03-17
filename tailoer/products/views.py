@@ -15,13 +15,17 @@ def product(request, pk):
 
 
 def createProduct(request):
+    profile = request.user.profile
     form = ProductForm()
 
     if request.method == 'POST':
-        form = ProductForm(request.POST)
+        print(request.POST)
+        form = ProductForm(request.POST, request.user)
         if form.is_valid():
-            form.save()
-            return redirect('products')
+            product = form.save(commit=False)
+            product.owner = profile
+            product.save()
+            return redirect('profile', profile)
 
     context = {'form': form}
     return render(request, 'products/new_product.html', context)
